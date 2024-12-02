@@ -1,0 +1,50 @@
+services:
+  auth-hitss-app:
+    build:
+      context: .
+    container_name: auth-hitss-app
+    command: npm run start:dev
+    environment:
+      APP_PORT: 3000
+      DATABASE_DEV_URL: ""
+      DATABASE_TEST_URL: ""
+    volumes:
+      - .:/home/node/app
+    networks:
+      - auth-hitss-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-hitss-database-dev
+      - auth-hitss-database-test
+
+  auth-hitss-database-dev:
+    image: postgres:15-alpine
+    container_name: auth-hitss-database-dev
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: auth_hitss
+    volumes:
+      - auth-hitss-database-dev-volume:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  auth-hitss-database-test:
+    image: postgres:15-alpine
+    container_name: auth-hitss-database-test
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: auth_hitss
+    volumes:
+      - auth-hitss-database-test-volume:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
+networks:
+  auth-hitss-network:
+
+volumes:
+  auth-hitss-database-dev-volume:
+  auth-hitss-database-test-volume:
