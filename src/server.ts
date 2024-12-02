@@ -7,7 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(UserRoutes)
 // app.use(errorMiddleware)
+const PORT = 3000
 
-app.listen(process.env.PORT, () => {
-    console.log('listening on port ' + process.env.PORT)
+app.listen(PORT, () => {
+    console.log('listening on port ' + PORT)
 });
